@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ContactList } from './Contacts/Contacts';
+import { ContactList } from './ContactsList/ContactsList';
 import { FormContacts } from './form/form';
 import { Filter } from './Filter/Filter';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { getContacts } from 'redux/selectors';
+import { Container } from './Container/Container.styled';
+import { Section } from './Section/Section';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -11,7 +13,7 @@ export const App = () => {
 
   const handleSubmit = (values, { resetForm }) => {
     const theSameContact = contacts.filter(
-      contact => contact.text.name.toLowerCase() === values.name.toLowerCase()
+      contact => contact.name.toLowerCase() === values.name.toLowerCase()
     );
     if (theSameContact.length) {
       alert(`${values.name} is already in contacts`);
@@ -22,13 +24,15 @@ export const App = () => {
   };
 
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <FormContacts onFormSubmit={handleSubmit} />
+    <Container>
+      <Section title={'Phonebook'}>
+        <FormContacts onFormSubmit={handleSubmit} />
+      </Section>
 
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+      <Section title={'Contacts'}>
+        <Filter />
+        <ContactList />
+      </Section>
+    </Container>
   );
 };

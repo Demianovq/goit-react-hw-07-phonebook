@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { getContacts, getFilter } from 'redux/selectors';
 import { ContactItem } from 'components/Contact/Contact';
+import { ListStyled } from './ContactsList.styled';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
@@ -9,7 +10,7 @@ export const ContactList = () => {
   const OnFilteredContacts = () => {
     if (filterValue) {
       return contacts.filter(contact =>
-        contact.text.name.toLowerCase().includes(filterValue.toLowerCase())
+        contact.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     return;
@@ -17,19 +18,15 @@ export const ContactList = () => {
 
   const renderAMarkUpList = array => {
     return array.map(contact => {
-      return (
-        <li key={contact.id}>
-          <ContactItem contact={contact} />
-        </li>
-      );
+      return <ContactItem key={contact.id} contact={contact} />;
     });
   };
 
   return (
-    <ul>
+    <ListStyled>
       {filterValue
         ? renderAMarkUpList(OnFilteredContacts())
         : renderAMarkUpList(contacts)}
-    </ul>
+    </ListStyled>
   );
 };

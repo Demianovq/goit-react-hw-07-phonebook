@@ -1,5 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
+import {
+  StyledForm,
+  Label,
+  StyledErrorMessage,
+  StyledField,
+  Button,
+  StyledLabel,
+} from './form.styled';
 
 export const FormContacts = ({ onFormSubmit }) => {
   const initialValues = {
@@ -35,20 +43,21 @@ export const FormContacts = ({ onFormSubmit }) => {
         onFormSubmit(values, actions);
       }}
     >
-      <Form>
-        <label>
-          Name
-          <Field type="text" name="name" />
-          <ErrorMessage name="name" component="p" />
-        </label>
-        <label>
-          Number
-          <Field type="tel" name="number" />
-          <ErrorMessage name="number" component="p" />
-        </label>
+      <StyledForm>
+        <Label>
+          <StyledField type="text" name="name" />
+          <StyledLabel>Name</StyledLabel>
+          <ErrorMessage component={StyledErrorMessage} name="name" />
+        </Label>
 
-        <button type="submit">Add a contact</button>
-      </Form>
+        <Label>
+          <StyledField type="tel" name="number" />
+          <StyledLabel>Number</StyledLabel>
+          <ErrorMessage component={StyledErrorMessage} name="number" />
+        </Label>
+
+        <Button type="submit">Add Contact</Button>
+      </StyledForm>
     </Formik>
   );
 };
