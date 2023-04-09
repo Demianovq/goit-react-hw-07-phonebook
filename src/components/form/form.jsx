@@ -1,5 +1,8 @@
 import { Formik, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
+import { addContact } from 'redux/operations';
+import { getContacts } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   StyledForm,
   Label,
@@ -9,10 +12,25 @@ import {
   StyledLabel,
 } from './form.styled';
 
-export const FormContacts = ({ onFormSubmit }) => {
+export const FormContacts = () => {
   const initialValues = {
     name: '',
     number: '',
+  };
+
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
+  const handleSubmit = (values, { resetForm }) => {
+    const theSameContact = contacts.filter(
+      contact => contact.name.toLowerCase() === values.name.toLowerCase()
+    );
+    if (theSameContact.length) {
+      alert(`${values.name} is already in contacts`);
+      return;
+    }
+    dispatch(addContact(values));
+    resetForm();
   };
 
   const FormScheme = object({
@@ -40,7 +58,7 @@ export const FormContacts = ({ onFormSubmit }) => {
       initialValues={initialValues}
       validationSchema={FormScheme}
       onSubmit={(values, actions) => {
-        onFormSubmit(values, actions);
+        handleSubmit(values, actions);
       }}
     >
       <StyledForm>
